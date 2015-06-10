@@ -1,0 +1,27 @@
+{
+  "author": "Tom Zhou (http://iwebpp.com)",
+  "name": "papp-pac",
+  "description": "PAC server for access papp service via p2p STUN session",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/InstantWebP2P/papp-pac.git"
+  },
+  "keywords": [
+    "peer",
+    "webp2p",
+    "httpp",
+    "http",
+    "app"
+  ],
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "forward-proxy": "latest",
+    "freeport": "~1.0.4",
+    "httpp-forward": "latest",
+    "socks5": "latest"
+  }
+}
