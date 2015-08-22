@@ -37,8 +37,8 @@ rl.question('Please enter your user key:', function(answer) {
 	rl.close();
 
 	var prxySrv = new forwardProxy({
-		endpoints: [{ip: 'iwebpp.com', port: 51686}, {ip: 'iwebpp.com', port: 51868}],
-		turn: [{ip: 'iwebpp.com', agent: 51866, proxy: 51688}],
+		endpoints: [{ip: 'iwebvpn.com', port: 51686}, {ip: 'iwebvpn.com', port: 51868}],
+		turn: [{ip: 'iwebvpn.com', agent: 51866, proxy: 51688}],
 
 		usrkey: userkey, 
 		secmode: 'acl', 
@@ -144,18 +144,26 @@ rl.question('Please enter your user key:', function(answer) {
 							    					pacstr = pacstr.replace(/proxy_httpp_port/gi, ''+prxyPort1);
 							    					pacstr = pacstr.replace(/socks_httpp_port/gi, ''+scksPort1);
 							    					
+                                                    // check if CN site
+                                                    var isCN = prxySrv.nmcln.geoip && prxySrv.nmcln.geoip.country === 'CN';
+                                                    if (isCN) {
+                                                        pacstr = pacstr.replace(/isCN/gi, '');
+                                                    } else {
+                                                        pacstr = pacstr.replace(/isCN/gi, '!');
+                                                    }
+                                                    
 							    					///console.log('pacstr: '+pacstr);
 							    					var pacsrv = http.createServer(function(req, res){
 							    						res.writeHead(200, {'Content-Type': 'application/x-ns-proxy-autoconfig'});
 							    						res.end(pacstr);
-							    					});
+                                                    });
 
 							    					pacsrv.listen(pacPort, function() {
 							    						console.log('pac server listening on '+pacPort);
                                                         
-                                                        console.log('\n\nPlease set Web Browser Proxy setting to PAC server on 127.0.0.1:'+pacPort);
+                                                        console.log('\n\nPlease set Web Browser Proxy setting to PAC server on http://127.0.0.1:'+pacPort);
 
-							    						/*var pac = fork('./pac.js', [pacPort, prxyPort, scksPort, prxyPort1, scksPort1]);
+							    						/*var pac = fork('./pac.js', [pacPort, prxyPort, scksPort, prxyPort1, scksPort1, isCN]);
 							    								pac.on('exit', function(code){
 							    									console.log('pac server exited '+code);
 							    									// exit main program
