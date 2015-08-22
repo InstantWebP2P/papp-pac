@@ -25,11 +25,15 @@ var rl = readline.createInterface({
 });
 
 rl.question('Please enter your user key:', function(answer) {
-	var userkey = answer && answer.trim();
+  var userkey = answer && answer.trim();
 	
-	console.log('You just typed: '+userkey);
-	console.log('\nPlease waiting seconds and Chrome will show up ...... \n');
-
+  console.log('You just typed userkey: '+userkey);
+    
+  rl.question('\nPlease enter PAC server port:', function(answer) {
+	var pacport = answer && answer.trim(); pacport = parseInt(pacport, 10);
+	
+	console.log('You just typed PAC port: ', pacport, '\n');
+    
 	rl.close();
 
 	var prxySrv = new forwardProxy({
@@ -124,9 +128,10 @@ rl.question('Please enter your user key:', function(answer) {
 
 							    				// 5.
 							    				// start pac server
-							    				freeport(function(err, pacPort) {
-							    					if (err) throw new Error(err+', get pac port failed');
+							    				///freeport(function(err, pacPort) {
+							    					///if (err) throw new Error(err+', get pac port failed');
 
+                                                    var pacPort = pacport;
 
 							    					// pac server
 							    					var rawstr = fs.readFileSync(__dirname+'/auto.pac').toString('utf-8');
@@ -147,6 +152,8 @@ rl.question('Please enter your user key:', function(answer) {
 
 							    					pacsrv.listen(pacPort, function() {
 							    						console.log('pac server listening on '+pacPort);
+                                                        
+                                                        console.log('\n\nPlease set Web Browser Proxy setting to PAC server on 127.0.0.1:'+pacPort);
 
 							    						/*var pac = fork('./pac.js', [pacPort, prxyPort, scksPort, prxyPort1, scksPort1]);
 							    								pac.on('exit', function(code){
