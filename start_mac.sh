@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 
-### Copyright 2014-2015 by tom zhou(iwebpp@gmail.com). All Rights Reserved.
+### Copyright 2014 iwebpp@gmail.com. All Rights Reserved.
+ulimit -n 8888 
+###ulimit -u 8888
 
 echo Make friends with PAPP Browser!
 
