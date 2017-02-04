@@ -8,6 +8,7 @@ var RULES = [
     ],
     //custom-list
     [
+	".cloudgua.com",
         ".zoopda.com",
         ".yixun.com",
         ".jd.com",
