@@ -11,6 +11,7 @@ var httpp_sites = [
     'ruyier.com',
     '51dese.com',
     'anyany.me',
+    'cloudgua.com',
 ];
 
 function checkHttpp(url, host) {
