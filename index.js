@@ -31,6 +31,7 @@ rl.question('Please enter your user key:', function(answer) {
     
   rl.question('\nPlease enter PAC server port:', function(answer) {
 	var pacport = answer && answer.trim(); pacport = parseInt(pacport, 10);
+	var nrports = 1;
 	
 	console.log('You just typed PAC port: ', pacport, '\n');
     
@@ -65,8 +66,9 @@ rl.question('Please enter your user key:', function(answer) {
 
 			// 1.
 			// get free tcp port
-			freeport(function(err, prxyPort) {
-				if (err) throw new Error(err+', get proxy port failed');
+			///freeport(function(err, prxyPort) {
+				///if (err) throw new Error(err+', get proxy port failed');
+				var prxyPort = pacport+nrports++;
 
 				// 2.
 				// start http proxy service
@@ -78,8 +80,9 @@ rl.question('Please enter your user key:', function(answer) {
 				pxySrv.listen(prxyPort, function() {
 					console.log('Http proxy server listen on port '+prxyPort);
 
-					freeport(function(err, scksPort) {
-						if (err) throw new Error(err+', get socks port failed');
+					///freeport(function(err, scksPort) {
+						///if (err) throw new Error(err+', get socks port failed');
+						var scksPort = pacport+nrports++;
 
 						// 2.1
 						// start socks proxy service
@@ -102,8 +105,9 @@ rl.question('Please enter your user key:', function(answer) {
 
 							    // 3.1
 							    // start http forward proxy service
-							    freeport(function(err, prxyPort1) {
-							    	if (err) throw new Error(err+', get httpp proxy port failed');
+							    ///freeport(function(err, prxyPort1) {
+							    	///if (err) throw new Error(err+', get httpp proxy port failed');
+							    	var prxyPort1 = pacport+nrports++; 
 
 							    	var pxySrv1 = http.createServer();
 
@@ -115,8 +119,9 @@ rl.question('Please enter your user key:', function(answer) {
 
 							    		// 3.2
 							    		// start httpp socks forward proxy service
-							    		freeport(function(err, scksPort1) {
-							    			if (err) throw new Error(err+', get httpp socks port failed');
+							    		///freeport(function(err, scksPort1) {
+							    			///if (err) throw new Error(err+', get httpp socks port failed');
+							    			var scksPort1 = pacport + nrports++;
 
 							    			var sockspxySrv1 = socks.createServer(proxy1.socksProxy);
 
@@ -172,14 +177,14 @@ rl.question('Please enter your user key:', function(answer) {
 							    					});
 							    				});
 							    			});
-							    		});
+							    		///});
 							    	});
-							    });
+							    ///});
 							});													
 						});
-					});
+					///});
 				});
-			});
+			///});
 		});
 	});
 });
